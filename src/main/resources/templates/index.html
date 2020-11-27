@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cyborg/bootstrap.min.css" integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <section id="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">
+                <img width="50" height="50" src="image/logo.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <span class="navbar-text">
+                IRI COVID-19 report
+            </span>
+        </nav>
+    </section>
+    <section id="todocontainer">
+        <h2 style="padding-top: 30px; padding-bottom: 20px;" class="text-center">The Covid-19 reporting tool</h2>
+        <div class="d-flex justify-content-center">
+            <form th:action="@{/report}" method="GET" enctype="multipart/form-data">
+                <div class="form-inline">
+                    <div class="form-group-lg">
+                        <label for="dayNum">Number of days</label>
+                        <input id="dayNum" name="dayNum" type="number" class="form-control" placeholder="Enter number of days">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-md text-white pull-right">View Report</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

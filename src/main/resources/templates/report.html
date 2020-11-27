@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid-19 report</title>
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cyborg/bootstrap.min.css" integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous">
+
+    <script type="text/javascript" th:inline="javascript">
+        window.onload = function () {
+            let dps = [ [], [], [] ];
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "dark1",
+                animationEnabled: true,
+                zoomEnabled: true,
+                title: {
+                    text: "The Covid-19 report of Iran"
+                },
+                axisX: {
+                    valueFormatString: "MMM YYYY"
+                },
+                asixY: {
+                    title: "Number",
+                    includeZero: true
+                },
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    verticalAlign: "top",
+                    horizontalAlign: "center",
+                    dockInsidePlotArea: true,
+                    itemclick: toogleDataSeries
+                },
+                data: [{
+                    type: "line",
+                    xValueType: "dateTime",
+                    name: "confirmed",
+                    showInLegend: true,
+                    xValueFormatString: "MMM YYYY",
+                    yValueFormatString: "########",
+                    markerSize: 0,
+                    dataPoints: dps[0]
+                },
+                    {
+                        type: "line",
+                        xValueType: "dateTime",
+                        name: "recovered",
+                        showInLegend: true,
+                        xValueFormatString: "MMM YYYY",
+                        yValueFormatString: "########",
+                        markerSize: 0,
+                        dataPoints: dps[1]
+                    },
+                    {
+                        type: "line",
+                        xValueType: "dateTime",
+                        name: "recovered",
+                        showInLegend: true,
+                        xValueFormatString: "MMM YYYY",
+                        yValueFormatString: "########",
+                        markerSize: 0,
+                        dataPoints: dps[2]
+                    },
+
+                ]
+            });
+
+            var xValue;
+            var yValue;
+
+            /*[# th:each="element : ${data}"]*/
+            var xValue = [[${element.key}]]
+            xValue = Date.parse(xValue)
+            var yValue = [[${element.value.confirmed}]]
+            dps[0].push({x: xValue, y: yValue})
+            var yValue = [[${element.value.recovered}]]
+            dps[1].push({x: xValue, y: yValue})
+            var yValue = [[${element.value.deaths}]]
+            dps[2].push({x: xValue, y: yValue})
+            /*[/]*/
+            console.log(dps)
+            dps[0].sort(compare)
+            dps[1].sort(compare)
+            dps[2].sort(compare)
+            chart.render();
+        }
+
+        function toogleDataSeries(e) {
+            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            } else {
+                e.dataSeries.visible = true;
+            }
+            chart.render();
+        }
+
+        function compare(a, b) {
+            if (a.x < b.x) {
+                return -1;
+            }
+            if (a.x > b.x) {
+                return 1;
+            }
+            return 0;
+        }
+
+    </script>
+
+</head>
+<body>
+    <section id="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">
+                <img width="50" height="50" src="image/logo.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <span class="navbar-text">
+                    IRI COVID-19 report
+                </span>
+            </div>
+        </nav>
+    </section>
+    <section>
+        <div class="d-flex justify-content-center">
+            <div id="chartContainer" class="col-lg-10"></div>
+        </div>
+    </section>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
